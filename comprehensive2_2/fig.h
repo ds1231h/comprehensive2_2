@@ -17,6 +17,10 @@ protected:
 	POINT m_ptS;
 	POINT m_ptE;
 	CString m_szBuf;
+	COLORREF m_LC; // ÏßÉ«
+	COLORREF m_BC; // Ë¢É«
+	LOGFONT m_f;
+	// HFONT m_font;
 	static CONST int DRAW_LINE = 1;
 	static CONST int DRAW_RECT = 2;
 	static CONST int DRAW_TEXT = 3;
@@ -25,7 +29,7 @@ protected:
 class MyCline:public CFIG
 {
 public:
-	MyCline(CPoint, CPoint);
+	MyCline(CPoint, CPoint, COLORREF);
 	MyCline(){};
 	void draw(CDC */*pDC*/);
 	void save(CArchive &ar);
@@ -36,7 +40,7 @@ public:
 class MyCrect:public CFIG
 {
 public:
-	MyCrect(CPoint, CPoint);
+	MyCrect(CPoint, CPoint, COLORREF, COLORREF);
 	MyCrect(){};
 	void draw(CDC */*pDC*/);
 	void save(CArchive &ar);
@@ -46,7 +50,8 @@ public:
 class MyCtext:public CFIG
 {
 public:
-	MyCtext(CPoint, CString);
+	// MyCtext(CPoint, CString, CFont*);
+	MyCtext(CPoint, CString, LOGFONT);
 	MyCtext(){};
 	void draw(CDC */*pDC*/);
 	void save(CArchive &ar);

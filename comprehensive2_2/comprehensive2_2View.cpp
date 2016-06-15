@@ -34,6 +34,13 @@ BEGIN_MESSAGE_MAP(Ccomprehensive2_2View, CView)
 	ON_COMMAND(ID_DRAW_RECT, &Ccomprehensive2_2View::OnDrawRect)
 	ON_COMMAND(ID_DRAW_TEXT, &Ccomprehensive2_2View::OnDrawText)
 	ON_COMMAND(ID_CALCULTE_ADD, &Ccomprehensive2_2View::OnCalculteAdd)
+	ON_UPDATE_COMMAND_UI(ID_DRAW_LINE, &Ccomprehensive2_2View::OnUpdateDrawLine)
+	ON_UPDATE_COMMAND_UI(ID_DRAW_RECT, &Ccomprehensive2_2View::OnUpdateDrawRect)
+	ON_UPDATE_COMMAND_UI(ID_DRAW_TEXT, &Ccomprehensive2_2View::OnUpdateDrawText)
+	ON_COMMAND(ID_PROPERTY_LINECOLOR, &Ccomprehensive2_2View::OnPropertyLinecolor)
+	ON_COMMAND(ID_PROPERTY_PAINTCOLOR, &Ccomprehensive2_2View::OnPropertyPaintcolor)
+	ON_COMMAND(ID_PROPERTY_FONT, &Ccomprehensive2_2View::OnPropertyFont)
+	ON_WM_RBUTTONDOWN()
 END_MESSAGE_MAP()
 
 // Ccomprehensive2_2View construction/destruction
@@ -43,7 +50,7 @@ Ccomprehensive2_2View::Ccomprehensive2_2View()
 	DrawMode = new int;
 	*DrawMode = 1;
 	p = nullptr;
-	
+	m_Brcolor = RGB(255, 255, 255);
 }
 
 Ccomprehensive2_2View::~Ccomprehensive2_2View()
@@ -155,11 +162,11 @@ void Ccomprehensive2_2View::OnLButtonUp(UINT nFlags, CPoint point)
 	switch(*DrawMode)
 	{
 	case 1:
-		p = new MyCline(m_s, m_e);
+		p = new MyCline(m_s, m_e, m_color);
 		break;
 
 	case 2:
-		p = new MyCrect(m_s, m_e);;
+		p = new MyCrect(m_s, m_e, m_color, m_Brcolor);;
 		break;
 
 	case 3:
@@ -167,7 +174,7 @@ void Ccomprehensive2_2View::OnLButtonUp(UINT nFlags, CPoint point)
 		if (text.DoModal() == IDOK)
 		{
 			szBuf = text.Text; // 先声明类对象，再用对象去访问另一个类定义的变量
-			p = new MyCtext(m_s, szBuf);
+			p = new MyCtext(m_s, szBuf, lf);
 		}
 		break;
 	}
@@ -204,4 +211,74 @@ void Ccomprehensive2_2View::OnCalculteAdd()
 {
 	Add add;
 	add.DoModal();
+}
+
+
+void Ccomprehensive2_2View::OnUpdateDrawLine(CCmdUI *pCmdUI)
+{
+	pCmdUI->SetCheck(*DrawMode == 1);
+}
+
+
+void Ccomprehensive2_2View::OnUpdateDrawRect(CCmdUI *pCmdUI)
+{
+	pCmdUI->SetCheck(*DrawMode == 2);
+}
+
+
+void Ccomprehensive2_2View::OnUpdateDrawText(CCmdUI *pCmdUI)
+{
+	pCmdUI->SetCheck(*DrawMode == 3);
+}
+
+
+void Ccomprehensive2_2View::OnPropertyLinecolor()
+{
+	COLORREF color = RGB(255, 0, 0); 
+	CColorDialog colorDlg(color);         // 构造颜色对话框，传入初始颜色值   
+
+	if (IDOK == colorDlg.DoModal())       // 显示颜色对话框，并判断是否点击了“确定”   
+	{   
+		color = colorDlg.GetColor();      // 获取颜色对话框中选择的颜色值    
+		m_color = color;
+	}
+}
+
+
+void Ccomprehensive2_2View::OnPropertyPaintcolor()
+{
+	COLORREF color = RGB(255, 0, 0); 
+	CColorDialog colorDlg(color);         // 构造颜色对话框，传入初始颜色值   
+
+	if (IDOK == colorDlg.DoModal())       // 显示颜色对话框，并判断是否点击了“确定”   
+	{   
+		color = colorDlg.GetColor();      // 获取颜色对话框中选择的颜色值    
+		m_Brcolor = color;
+	}
+}
+
+
+void Ccomprehensive2_2View::OnPropertyFont()
+{
+	// LOGFONT lf;
+
+	memset(&lf, 0, sizeof(LOGFONT)); // 将lf所有字节清零
+	// 构造字体对话框，初始选择字体名为“宋体”
+	_tcscpy_s(lf.lfFaceName, LF_FACESIZE, _T("宋体"));
+	CFontDialog fontDlg(&lf);
+
+	if (IDOK != fontDlg.DoModal())
+	{
+		return ;
+	}
+}
+
+
+void Ccomprehensive2_2View::OnRButtonDown(UINT nFlags, CPoint point)
+{
+// 	CMenu m,*pm;
+// 	if(!m.LoadMenu(IDR_POPUP_EDIT)) MessageBox(_T("err"));
+// 	pm=m.GetSubMenu(0);
+// 	GetCursorPos(&point);
+// 	pm->TrackPopupMenu(TPM_LEFTALIGN,point.x, point.y, this);
 }

@@ -78,6 +78,7 @@ void Ccomprehensive2_2Doc::Serialize(CArchive& ar)
 			{
 			case 1: p = new MyCline();	break; // »­Ïß
 			case 2: p = new MyCrect();	break; // »­¾ØÐÎ
+			case 3: p = new MyCtext();	break; // ×Ö·û
 				break;
 			}
 			if (p!= NULL){

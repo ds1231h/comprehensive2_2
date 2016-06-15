@@ -12,7 +12,7 @@ public:
 	virtual ~MyText();
 
 // Dialog Data
-	enum { IDD = IDD_DIALOG2 };
+	enum { IDD = IDD_TEXT };
 
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support

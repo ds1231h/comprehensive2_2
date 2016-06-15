@@ -20,10 +20,15 @@ public:
 // Operations
 protected:
 	int *DrawMode;
-	CFIG* p;
+	CFIG *p;
 	CPoint m_s;
 	CPoint m_e;
 	CString szBuf;
+	CFont m_font;
+	DWORD *rgbCurrent;
+	LOGFONT lf;
+	COLORREF m_color;
+	COLORREF m_Brcolor;
 
 public:
 	
@@ -60,6 +65,13 @@ public:
 	afx_msg void OnDrawRect();
 	afx_msg void OnDrawText();
 	afx_msg void OnCalculteAdd();
+	afx_msg void OnUpdateDrawLine(CCmdUI *pCmdUI);
+	afx_msg void OnUpdateDrawRect(CCmdUI *pCmdUI);
+	afx_msg void OnUpdateDrawText(CCmdUI *pCmdUI);
+	afx_msg void OnPropertyLinecolor();
+	afx_msg void OnPropertyPaintcolor();
+	afx_msg void OnPropertyFont();
+	afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
 };
 
 #ifndef _DEBUG  // debug version in comprehensive2_2View.cpp
